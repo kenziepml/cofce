@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cofce — Manisnya Selalu Dirindukan</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Fraunces"', 'serif'],
+                    },
+                    colors: {
+                        cream: { 50: '#FDFBF7', 100: '#F9F3E8', 200: '#F1E4CD', 300: '#E5CFA6' },
+                        espresso: { 700: '#4A3222', 800: '#362317', 900: '#24160E' },
+                        caramel: { 500: '#C87D32', 600: '#AE6620' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes popClick { 0% { transform: scale(1); } 50% { transform: scale(0.97); } 100% { transform: scale(1); } }
+        .animate-pop { animation: popClick 0.25s ease-in-out; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9F3E8; }
+        ::-webkit-scrollbar-thumb { background: #C87D32; border-radius: 9999px; }
+    </style>
+</head>
+<body class="bg-cream-50 dark:bg-espresso-900 text-espresso-900 dark:text-cream-50 font-sans antialiased transition-colors duration-300 selection:bg-caramel-500 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="sticky top-0 z-40 bg-cream-50/90 dark:bg-espresso-900/90 backdrop-blur-md border-b border-cream-200 dark:border-espresso-700 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-11 h-11 rounded-2xl bg-espresso-800 dark:bg-caramel-500 text-cream-100 flex items-center justify-center shadow-md group-hover:bg-caramel-500 transition-colors">
+                    <i class="ph-fill ph-coffee text-2xl"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-2xl font-bold tracking-tight block leading-none">Cofce.</span>
+                    <span class="text-[11px] font-medium text-caramel-600 dark:text-caramel-400 tracking-wider uppercase">Kopi & Cerita</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold opacity-90">
+                <a href="#beranda" class="hover:text-caramel-600 transition-colors">Beranda</a>
+                <a href="#racik" class="hover:text-caramel-600 transition-colors flex items-center gap-1.5">
+                    <i class="ph-fill ph-magic-wand text-caramel-500"></i> Racik Kopimu
+                </a>
+                <a href="#live-map" class="hover:text-caramel-600 transition-colors flex items-center gap-1.5">
+                    <i class="ph-fill ph-map-pin text-caramel-500"></i> Lacak Kurir
+                </a>
+                <a href="#riwayat-section" class="hover:text-caramel-600 transition-colors flex items-center gap-1.5">
+                    <i class="ph-fill ph-receipt text-caramel-500"></i> Riwayat Struk
+                </a>
+                <a href="#cerita" class="hover:text-caramel-600 transition-colors">Cerita Kami</a>
+            </nav>
+
+            <div class="flex items-center gap-2.5">
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleDarkMode()" aria-label="Toggle Theme" class="p-2.5 rounded-2xl bg-cream-100 dark:bg-espresso-800 text-espresso-800 dark:text-cream-50 hover:bg-cream-200 dark:hover:bg-espresso-700 transition-all shadow-xs">
+                    <i id="theme-icon" class="ph-bold ph-moon text-lg"></i>
+                </button>
+
+                <!-- Header Chat Kurir Button -->
+                <button onclick="openHeaderChat()" aria-label="Chat Kurir" class="p-2.5 rounded-2xl bg-cream-100 dark:bg-espresso-800 text-espresso-800 dark:text-cream-50 hover:bg-cream-200 dark:hover:bg-espresso-700 transition-all shadow-xs flex items-center gap-1.5 px-3">
+                    <i class="ph-fill ph-chat-circle-dots text-lg text-emerald-500"></i>
+                    <span class="text-xs font-bold hidden sm:inline">Chat Kurir</span>
+                </button>
+
+                <button onclick="toggleCart()" class="relative inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-espresso-800 dark:bg-caramel-500 text-cream-50 hover:bg-espresso-700 active:scale-95 transition-all shadow-sm">
+                    <i class="ph-bold ph-shopping-bag text-lg"></i>
+                    <span class="text-sm font-semibold hidden sm:inline">Keranjang</span>
+                    <span id="cart-badge" class="px-2 py-0.5 text-xs font-bold rounded-full bg-caramel-500 dark:bg-espresso-900 text-white">0</span>
+                </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-2xl bg-cream-100 dark:bg-espresso-800 text-espresso-800 dark:text-cream-50">
+                    <i class="ph-bold ph-list text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-cream-100 dark:bg-espresso-800 border-b border-cream-200 dark:border-espresso-700 px-4 pt-2 pb-5 space-y-2">
+            <a href="#beranda" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl font-semibold hover:bg-cream-200 dark:hover:bg-espresso-700">Beranda</a>
+            <a href="#racik" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl font-semibold hover:bg-cream-200 dark:hover:bg-espresso-700">✨ Racik Kopimu</a>
+            <a href="#live-map" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl font-semibold hover:bg-cream-200 dark:hover:bg-espresso-700">🛵 Lacak Kurir</a>
+            <a href="#riwayat-section" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl font-semibold hover:bg-cream-200 dark:hover:bg-espresso-700">🧾 Riwayat Struk</a>
+            <a href="#cerita" onclick="toggleMobileMenu()" class="block px-4 py-2.5 rounded-xl font-semibold hover:bg-cream-200 dark:hover:bg-espresso-700">Cerita Kami</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section id="beranda" class="relative overflow-hidden py-12 sm:py-20 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cream-200/80 text-espresso-800 text-xs font-bold tracking-wide uppercase">
+                            <span class="w-2 h-2 rounded-full bg-caramel-500"></span>
+                            Biji Kopi Nusantara Pilihan
+                        </div>
+                        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-espresso-900 leading-[1.12]">
+                            Segelas Kehangatan, <br class="hidden sm:inline">
+                            <span class="italic text-caramel-600">Manisnya Selalu Dirindukan.</span>
+                        </h1>
+                        <p class="text-base sm:text-lg text-espresso-700 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            Dari seduhan espresso klasik gula aren hingga racikan susu oat yang lembut. Nikmati menu andalan kami atau racik sendiri takaran manis sesuai suasana hatimu hari ini.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#racik" class="px-7 py-4 rounded-2xl bg-espresso-800 text-cream-50 font-bold text-sm sm:text-base shadow-lg hover:bg-caramel-600 transition-all flex items-center gap-2">
+                                <i class="ph-bold ph-sliders-horizontal text-lg"></i>
+                                Mulai Racik Kopimu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Builder Section -->
+        <section id="racik" class="py-16 bg-cream-100 dark:bg-espresso-800/50 border-y border-cream-200 dark:border-espresso-700 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-xs font-bold uppercase tracking-widest text-caramel-600 dark:text-caramel-400">Barista Virtual Cofce</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold mt-1">Racik Minuman Versimu</h2>
+                    <p class="text-sm sm:text-base opacity-80 mt-2">Sesuaikan pesanan kopi andalanmu dengan mudah dan praktis.</p>
+                </div>
+
+                <div class="max-w-2xl mx-auto space-y-6">
+                    <div class="bg-cream-50 dark:bg-espresso-800 p-6 rounded-3xl border border-cream-200 dark:border-espresso-700 shadow-sm">
+                        <h3 class="font-serif text-lg font-bold mb-3 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-espresso-800 dark:bg-caramel-500 text-cream-50 text-xs flex items-center justify-center font-sans">1</span>
+                            Pilih Varian:
+                        </h3>
+                        <button onclick="selectBase('original', this)" class="w-full p-4 rounded-2xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900 text-left flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-5 h-5 rounded-full bg-[#4B2C18] block"></span>
+                                <div>
+                                    <p class="font-bold text-sm">Original Cofce</p>
+                                    <p class="text-xs opacity-70">Rasa klasik nikmat & pas di lidah</p>
+                                </div>
+                            </div>
+                            <span class="font-serif font-bold text-caramel-600 dark:text-caramel-400">Rp 10.000</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-cream-50 dark:bg-espresso-800 p-6 rounded-3xl border border-cream-200 dark:border-espresso-700 shadow-sm">
+                        <h3 class="font-serif text-lg font-bold mb-3 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-espresso-800 dark:bg-caramel-500 text-cream-50 text-xs flex items-center justify-center font-sans">2</span>
+                            Tingkat Kemanisan Gula Aren
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="selectSweetness('Sugar')" data-sweet="Sugar" class="sweet-btn p-3.5 rounded-2xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900 text-center">
+                                <p class="font-bold text-sm">Sugar</p><p class="text-xs opacity-70">Normal</p>
+                            </button>
+                            <button onclick="selectSweetness('Less Sugar')" data-sweet="Less Sugar" class="sweet-btn p-3.5 rounded-2xl border-2 border-cream-200 dark:border-espresso-700 bg-white dark:bg-espresso-800 text-center">
+                                <p class="font-bold text-sm">Less Sugar</p><p class="text-xs opacity-70">Sedikit Manis</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-cream-50 dark:bg-espresso-800 p-6 rounded-3xl border border-cream-200 dark:border-espresso-700 shadow-sm">
+                        <h3 class="font-serif text-lg font-bold mb-3 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-espresso-800 dark:bg-caramel-500 text-cream-50 text-xs flex items-center justify-center font-sans">3</span>
+                            Suhu Penyajian
+                        </h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="selectIce('Es')" data-ice="Es" class="ice-btn p-3.5 rounded-2xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900 text-center">
+                                <p class="font-bold text-sm">Es (Cold)</p><p class="text-xs opacity-70">Segar Dingin</p>
+                            </button>
+                            <button onclick="selectIce('Hot')" data-ice="Hot" class="ice-btn p-3.5 rounded-2xl border-2 border-espresso-700 bg-white dark:bg-espresso-800 text-center">
+                                <p class="font-bold text-sm">Hot (Hangat)</p><p class="text-xs opacity-70">Seduhan Hangat</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-cream-50 dark:bg-espresso-800 p-6 rounded-3xl border border-cream-200 dark:border-espresso-700 shadow-sm">
+                        <h3 class="font-serif text-lg font-bold mb-1 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-espresso-800 dark:bg-caramel-500 text-cream-50 text-xs flex items-center justify-center font-sans">4</span>
+                            Tambahan Topping
+                        </h3>
+                        <p class="text-xs opacity-70 mb-4 ml-8">Pilih topping biskuit Astor</p>
+                        <button onclick="toggleTopping('astor')" id="top-astor" class="w-full p-4 rounded-2xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900 text-left flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="ph-fill ph-cookie text-2xl text-caramel-600"></i>
+                                <div>
+                                    <p class="font-bold text-sm">Topping Astor Cokelat</p>
+                                    <p class="text-xs opacity-70">Renyah & Manis</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-caramel-600 dark:text-caramel-400">+Rp 2.000</span>
+                        </button>
+                    </div>
+
+                    <button onclick="addCustomDrinkToCart()" class="w-full py-4 rounded-2xl bg-espresso-800 dark:bg-caramel-500 hover:bg-caramel-600 text-cream-50 font-bold text-base transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-shopping-bag-open text-lg"></i>
+                        Masukkan Pesanan ke Keranjang
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Live Map Tracking Section -->
+        <section id="live-map" class="py-16 bg-cream-50 dark:bg-espresso-900 transition-colors duration-300">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-caramel-600">Live Tracking</span>
+                    <h2 class="font-serif text-3xl font-bold text-espresso-900 mt-1">Pelacakan Kurir Cofce</h2>
+                    <p class="text-sm text-espresso-700 mt-1">Geser peta untuk melihat posisi kurir secara real-time.</p>
+                </div>
+
+                <div class="bg-white p-4 sm:p-6 rounded-3xl border border-cream-200 shadow-lg space-y-4">
+                    <div id="map-viewport" class="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden bg-[#EAE3D2] border border-cream-300 shadow-inner cursor-grab active:cursor-grabbing select-none">
+                        <div id="map-canvas" class="absolute w-[800px] h-[800px] top-[-200px] left-[-150px] transition-transform duration-75 ease-out">
+                            <div class="absolute inset-0 opacity-25" style="background-image: linear-gradient(#362317 1px, transparent 1px), linear-gradient(90deg, #362317 1px, transparent 1px); background-size: 50px 50px;"></div>
+                            
+                            <svg class="absolute inset-0 w-full h-full pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M 280,440 Q 420,280 580,380 T 720,300" fill="none" stroke="#C87D32" stroke-width="6" stroke-dasharray="10 8" class="animate-pulse"/>
+                            </svg>
+
+                            <div class="absolute top-[410px] left-[270px] flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 z-20">
+                                <div class="w-12 h-12 rounded-2xl bg-espresso-900 text-cream-50 flex items-center justify-center shadow-xl border-2 border-white">
+                                    <i class="ph-fill ph-storefront text-xl text-caramel-500"></i>
+                                </div>
+                                <span class="bg-espresso-900 text-cream-50 text-[11px] font-bold px-2.5 py-0.5 rounded-full mt-1 shadow-md whitespace-nowrap">Resto Cofce</span>
+                            </div>
+
+                            <div class="absolute top-[280px] left-[720px] flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 z-20">
+                                <div class="w-12 h-12 rounded-2xl bg-caramel-600 text-white flex items-center justify-center shadow-xl border-2 border-white animate-bounce">
+                                    <i class="ph-fill ph-house text-xl"></i>
+                                </div>
+                                <span class="bg-espresso-900 text-cream-50 text-[11px] font-bold px-2.5 py-0.5 rounded-full mt-1 shadow-md whitespace-nowrap">Titik Rumahmu</span>
+                            </div>
+
+                            <div id="courier-pin" class="absolute top-[410px] left-[270px] flex flex-col items-center transform -translate-x-1/2 -translate-y-1/2 transition-all duration-1000 z-30">
+                                <div class="w-14 h-14 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-2xl border-4 border-white">
+                                    <i class="ph-fill ph-moped text-3xl"></i>
+                                </div>
+                                <span id="courier-label" class="bg-emerald-900 text-white text-[11px] font-bold px-3 py-1 rounded-full mt-1 shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Kurir di Resto
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="absolute bottom-3 right-3 bg-espresso-900/80 text-cream-50 text-[10px] font-bold px-3 py-1.5 rounded-xl pointer-events-none backdrop-blur-xs">
+                            💡 Geser peta dengan mouse / sentuhan
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between bg-cream-100 p-4 rounded-2xl border border-cream-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-espresso-800 text-cream-50 flex items-center justify-center">
+                                <i class="ph-fill ph-navigation-arrow text-xl text-caramel-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-espresso-900">Status Pengiriman Live</p>
+                                <p id="map-status-text" class="text-xs text-espresso-700">Kurir siap mengantar pesanan ke alamatmu.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Riwayat Struk Section -->
+        <section id="riwayat-section" class="py-16 bg-cream-100 dark:bg-espresso-800/50 border-t border-cream-200 dark:border-espresso-700 transition-colors duration-300">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-caramel-600 dark:text-caramel-400">Arsip Transaksi</span>
+                    <h2 class="font-serif text-3xl font-bold mt-1">Riwayat Struk Pembelian</h2>
+                    <p class="text-sm opacity-80 mt-1">Daftar struk belanja yang pernah kamu buat di perangkat ini.</p>
+                </div>
+                <div id="main-history-list" class="space-y-4"></div>
+            </div>
+        </section>
+
+        <!-- Cerita Kami -->
+        <section id="cerita" class="py-16 bg-espresso-900 text-cream-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                    <div class="lg:col-span-6 space-y-4">
+                        <span class="text-xs font-bold uppercase tracking-widest text-caramel-500">Filosofi Cofce</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold leading-tight">
+                            Kenapa Manisnya Cofce Selalu Dirindukan?
+                        </h2>
+                        <p class="text-cream-200 text-sm sm:text-base leading-relaxed">
+                            Kami percaya setiap tegukan kopi yang baik tidak harus terasa pahit menyengat. Dengan memadukan biji kopi lokal bersama gula aren murni, Cofce menghadirkan rasa manis alami yang hangat dan menenangkan.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <div class="bg-espresso-800 border border-espresso-700 rounded-3xl p-6 sm:p-8 space-y-5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-2xl bg-caramel-500 flex items-center justify-center text-white">
+                                    <i class="ph-fill ph-map-pin text-2xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-serif text-xl font-bold">Kedai Utama Cofce</h3>
+                                    <p class="text-xs text-cream-200">Buka Setiap Hari • 07.00 – 22.00 WIB</p>
+                                </div>
+                            </div>
+                            <p class="text-sm text-cream-100 leading-relaxed">
+                                Jl. Sabang No. 42, Menteng, Jakarta Pusat. Mampir untuk menikmati aroma kopi segar atau pesan langsung dari halaman ini tanpa antre.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Reviews / Testimonials Section -->
+        <section id="ulasan" class="py-16 bg-cream-50 dark:bg-espresso-900 border-t border-cream-200 dark:border-espresso-700 transition-colors duration-300">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold uppercase tracking-widest text-caramel-600">Testimoni Pelanggan</span>
+                    <h2 class="font-serif text-3xl font-bold mt-1">Apa Kata Mereka Tentang Cofce?</h2>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-1 gap-6 max-w-lg mx-auto">
+                    <div class="bg-white dark:bg-espresso-800 p-6 rounded-3xl border border-cream-200 dark:border-espresso-700 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 rounded-full bg-caramel-500 text-white font-bold flex items-center justify-center text-base">
+                                    R
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">Rafa</h4>
+                                    <p class="text-[11px] opacity-70">Pelanggan Setia Cofce</p>
+                                </div>
+                            </div>
+                            <div class="flex text-amber-400 gap-0.5 text-sm">
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                                <i class="ph-fill ph-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-xs sm:text-sm italic opacity-90 leading-relaxed">
+                            "Cofce nya rasa nya sangat enak cocok untuk remaja hingga dewasa!"
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-cream-100 border-t border-cream-200 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-espresso-800 text-cream-100 flex items-center justify-center">
+                    <i class="ph-fill ph-coffee text-base"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-espresso-900">Cofce.</span>
+                <span class="text-xs text-espresso-700">— Kopi & Cerita</span>
+            </div>
+            <p class="text-xs text-espresso-700">© 2026 Cofce Indonesia. Diracik dengan sepenuh hati.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Drawer with Slide Animation -->
+    <div id="cart-modal" class="fixed inset-0 z-50 hidden">
+        <div id="cart-backdrop" onclick="toggleCart()" class="fixed inset-0 bg-espresso-900/50 backdrop-blur-xs opacity-0 transition-opacity duration-300"></div>
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div id="cart-panel" class="w-screen max-w-md bg-cream-50 dark:bg-espresso-900 shadow-2xl flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-out border-l border-cream-200 dark:border-espresso-700">
+                <div class="p-6 border-b border-cream-200 dark:border-espresso-700 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="ph-fill ph-shopping-bag text-2xl text-caramel-600"></i>
+                        <h2 class="font-serif text-xl font-bold">Keranjang Belanja</h2>
+                    </div>
+                    <button onclick="toggleCart()" class="p-2 rounded-xl bg-cream-100 dark:bg-espresso-800 hover:bg-cream-200">
+                        <i class="ph-bold ph-x text-lg"></i>
+                    </button>
+                </div>
+
+                <div id="cart-items" class="p-6 overflow-y-auto flex-1 space-y-4"></div>
+
+                <div class="p-6 bg-cream-100 dark:bg-espresso-800 border-t border-cream-200 dark:border-espresso-700 space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Nama Pemesan</label>
+                        <input id="customer-name" type="text" placeholder="Nama lengkapmu" class="w-full px-3.5 py-2.5 rounded-xl border border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-sm focus:outline-none focus:border-caramel-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Nomor Telepon / WhatsApp</label>
+                        <input id="customer-phone" type="tel" placeholder="Contoh: 08123456789" class="w-full px-3.5 py-2.5 rounded-xl border border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-sm focus:outline-none focus:border-caramel-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Alamat Pengiriman Lengkap</label>
+                        <textarea id="customer-address" rows="2" placeholder="Jalan, Nomor Rumah, Kecamatan, Kota" class="w-full px-3.5 py-2.5 rounded-xl border border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-sm focus:outline-none focus:border-caramel-500 resize-none"></textarea>
+                    </div>
+
+                    <!-- Promo Code Feature -->
+                    <div>
+                        <label class="block text-xs font-bold mb-1 flex items-center justify-between">
+                            <span>Kode Promo</span>
+                            <span class="text-[10px] text-caramel-600 dark:text-caramel-400 italic">Clue: slogan cofce</span>
+                        </label>
+                        <div class="flex gap-2">
+                            <input id="promo-code-input" type="text" placeholder="Masukkan kode promo" class="flex-1 px-3.5 py-2 rounded-xl border border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-xs uppercase focus:outline-none focus:border-caramel-500">
+                            <button onclick="applyPromoCode()" class="px-4 py-2 rounded-xl bg-espresso-800 dark:bg-caramel-500 text-cream-50 font-bold text-xs hover:bg-caramel-600 transition-all">Gunakan</button>
+                        </div>
+                        <p id="promo-feedback" class="text-[11px] mt-1 font-semibold"></p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold mb-1">Metode Pembayaran</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="setPaymentMethod('cod')" id="pay-cod-btn" class="py-2.5 px-3 rounded-xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-200 dark:bg-espresso-700 text-xs font-bold">COD (Bayar di Tempat)</button>
+                            <button onclick="setPaymentMethod('qris')" id="pay-qris-btn" class="py-2.5 px-3 rounded-xl border-2 border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-xs font-bold">QRIS (Scan Barcode)</button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-base font-bold pt-1">
+                        <span>Total Pembayaran</span>
+                        <span id="cart-total" class="font-serif text-xl text-caramel-600 dark:text-caramel-400">Rp 0</span>
+                    </div>
+                    <button onclick="processCheckout()" class="w-full py-3.5 rounded-2xl bg-espresso-800 dark:bg-caramel-500 hover:bg-caramel-600 text-cream-50 font-bold text-sm transition-all shadow-md flex items-center justify-center gap-2">
+                        <i class="ph-bold ph-check-circle text-lg"></i>
+                        OK / Checkout Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QRIS Modal -->
+    <div id="qris-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-espresso-900/60 backdrop-blur-xs"></div>
+        <div class="relative bg-cream-50 rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-cream-200 text-center space-y-4">
+            <h3 class="font-serif text-xl font-bold text-espresso-900">Scan QRIS Pembayaran</h3>
+            <p class="text-xs text-espresso-700">Silakan scan barcode berikut menggunakan m-banking atau e-wallet.</p>
+            <div class="bg-white p-4 rounded-2xl border border-cream-300 inline-block shadow-inner">
+                <svg width="180" height="180" viewBox="0 0 100 100" class="mx-auto">
+                    <rect width="100" height="100" fill="white"/>
+                    <rect x="10" y="10" width="25" height="25" fill="#24160E"/>
+                    <rect x="15" y="15" width="15" height="15" fill="white"/>
+                    <rect x="18" y="18" width="9" height="9" fill="#24160E"/>
+                    <rect x="65" y="10" width="25" height="25" fill="#24160E"/>
+                    <rect x="70" y="15" width="15" height="15" fill="white"/>
+                    <rect x="73" y="18" width="9" height="9" fill="#24160E"/>
+                    <rect x="10" y="65" width="25" height="25" fill="#24160E"/>
+                    <rect x="15" y="70" width="15" height="15" fill="white"/>
+                    <rect x="18" y="73" width="9" height="9" fill="#24160E"/>
+                    <rect x="40" y="10" width="8" height="12" fill="#24160E"/>
+                    <rect x="40" y="50" width="15" height="15" fill="#24160E"/>
+                    <rect x="60" y="65" width="8" height="25" fill="#24160E"/>
+                </svg>
+            </div>
+            <p id="qris-amount" class="font-serif font-bold text-caramel-600 text-lg">Rp 0</p>
+            <button onclick="confirmQrisPayment()" class="w-full py-3.5 rounded-2xl bg-espresso-800 hover:bg-caramel-600 text-cream-50 font-bold text-sm shadow-md">Sudah Bayar</button>
+            <button onclick="document.getElementById('qris-modal').classList.add('hidden')" class="w-full py-2.5 rounded-xl bg-cream-200 text-xs font-semibold">Batal</button>
+        </div>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="fixed inset-0 bg-espresso-900/60 backdrop-blur-xs"></div>
+        <div class="relative bg-cream-50 rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-cream-200 space-y-4 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white mx-auto flex items-center justify-center shadow-md">
+                <i class="ph-fill ph-receipt text-2xl"></i>
+            </div>
+            <div>
+                <h3 class="font-serif text-2xl font-bold text-espresso-900">Struk Pembelian</h3>
+                <p id="receipt-time" class="text-[11px] text-caramel-600 font-bold uppercase tracking-wider">Cofce — Kopi & Cerita</p>
+            </div>
+
+            <div id="receipt-details" class="bg-white p-4 rounded-2xl border border-cream-300 text-left space-y-1.5 text-xs text-espresso-800"></div>
+
+            <div class="bg-cream-100 p-3.5 rounded-2xl border border-cream-200 text-center space-y-1">
+                <p class="text-[11px] font-bold text-espresso-700 uppercase">Estimasi Kurir Tiba</p>
+                <p id="receipt-countdown" class="font-serif font-bold text-caramel-600 text-xl">10:00</p>
+                <p class="text-[10px] text-espresso-600">Cofce segera dikirim ke alamatmu!</p>
+            </div>
+
+            <div class="space-y-1.5 pt-1">
+                <button id="cancel-order-btn" onclick="cancelCurrentOrder()" disabled class="w-full py-2.5 rounded-2xl bg-gray-300 text-gray-500 font-bold text-xs shadow-xs cursor-not-allowed transition-all">
+                    Cancel Pesanan
+                </button>
+                <p class="text-[10px] text-espresso-700 italic">Boleh cancel pesanan di atas 8 menit</p>
+            </div>
+
+            <button onclick="closeReceiptAndFinish()" class="w-full py-3.5 rounded-2xl bg-espresso-800 hover:bg-caramel-600 text-cream-50 font-bold text-sm shadow-md flex items-center justify-center gap-2">
+                <i class="ph-bold ph-check text-base"></i>
+                Tunggu & Kembali ke Beranda
+            </button>
+        </div>
+    </div>
+
+    <!-- Chat Kurir Modal Popup -->
+    <div id="chat-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="toggleChatModal()" class="fixed inset-0 bg-espresso-900/60 backdrop-blur-xs transition-opacity"></div>
+        <div class="relative bg-white dark:bg-espresso-800 rounded-3xl p-5 max-w-md w-full shadow-2xl border border-cream-200 dark:border-espresso-700 space-y-3 z-10 transform transition-all">
+            <div class="flex items-center justify-between border-b border-cream-200 dark:border-espresso-700 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-base shadow-md">
+                            <i class="ph-fill ph-user"></i>
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-emerald-400 border-2 border-white"></span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-espresso-900 dark:text-cream-50">Budi (Kurir Cofce Express)</h3>
+                        <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">Online • Siap Mengantar</p>
+                    </div>
+                </div>
+                <button onclick="toggleChatModal()" class="p-2 rounded-xl bg-cream-100 dark:bg-espresso-700 hover:bg-cream-200">
+                    <i class="ph-bold ph-x text-base"></i>
+                </button>
+            </div>
+
+            <!-- Chat Bubbles Area -->
+            <div id="chat-messages" class="h-64 overflow-y-auto space-y-3 p-3 bg-cream-50 dark:bg-espresso-900 rounded-2xl border border-cream-200 dark:border-espresso-700 text-xs">
+                <div class="flex justify-start">
+                    <div class="bg-white dark:bg-espresso-800 text-espresso-900 dark:text-cream-50 p-3 rounded-2xl rounded-tl-sm shadow-xs max-w-[80%] space-y-1">
+                        <p>Halo Kak! Silakan buat pesanan lewat keranjang ya, nanti saya langsung meluncur dari kedai Cofce. 😊</p>
+                        <span class="text-[9px] opacity-50 block text-right">Baru saja</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Input Box -->
+            <div class="flex items-center gap-2 pt-1">
+                <input id="chat-input" type="text" placeholder="Ketik pesan ke kurir..." class="flex-1 px-4 py-2.5 rounded-xl border border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-xs focus:outline-none focus:border-caramel-500">
+                <button onclick="sendUserMessage()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md flex items-center gap-1 transition-all">
+                    <i class="ph-bold ph-paper-plane-tilt text-sm"></i> Kirim
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 pointer-events-none transition-all duration-300 bg-espresso-900 text-cream-50 px-5 py-4 rounded-2xl shadow-xl flex items-center gap-3.5 border border-espresso-700 max-w-sm">
+        <i class="ph-fill ph-clock-countdown text-caramel-500 text-2xl animate-pulse"></i>
+        <div>
+            <p id="toast-title" class="text-xs font-bold text-caramel-500 uppercase tracking-wider">Notifikasi</p>
+            <span id="toast-message" class="text-xs sm:text-sm font-semibold block mt-0.5">Pesanan diproses!</span>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const baseConfig = { original: { name: 'Original Cofce', price: 10000 } };
+        const toppingConfig = { astor: { name: 'Topping Astor', price: 2000 } };
+
+        let customState = { base: 'original', sweetness: 'Sugar', ice: 'Es', toppings: ['astor'] };
+        let cart = [];
+        let orderHistory = JSON.parse(localStorage.getItem('cofce_history') || '[]');
+        let selectedPayment = 'cod';
+        let activeCountdownInterval = null;
+        let isCartOpen = false;
+        let discountAmount = 0; // Potongan tetap Rp 2.000
+        let orderCountdownSeconds = 10 * 60; // 10 menit
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('cofce_theme', isDark ? 'dark' : 'light');
+            document.getElementById('theme-icon').className = isDark ? 'ph-bold ph-sun text-lg' : 'ph-bold ph-moon text-lg';
+        }
+
+        // Check saved theme
+        if (localStorage.getItem('cofce_theme') === 'dark' || (!localStorage.getItem('cofce_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-icon').className = 'ph-bold ph-sun text-lg';
+        }
+
+        // Interactive Map Pan/Drag Logic
+        const viewport = document.getElementById('map-viewport');
+        const canvas = document.getElementById('map-canvas');
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        viewport.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+            viewport.style.cursor = 'grabbing';
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            canvas.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            viewport.style.cursor = 'grab';
+        });
+
+        // Touch support for map dragging
+        viewport.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX - translateX;
+            startY = e.touches[0].clientY - translateY;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            translateX = e.touches[0].clientX - startX;
+            translateY = e.touches[0].clientY - startY;
+            canvas.style.transform = `translate(${translateX}px, ${translateY}px)`;
+        });
+
+        window.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        function selectBase(baseKey, el) {
+            if (el) {
+                el.classList.add('animate-pop');
+                setTimeout(() => el.classList.remove('animate-pop'), 250);
+            }
+            customState.base = baseKey;
+        }
+
+        function selectSweetness(level) {
+            customState.sweetness = level;
+            document.querySelectorAll('.sweet-btn').forEach(btn => {
+                const active = btn.dataset.sweet === level;
+                btn.className = `sweet-btn p-3.5 rounded-2xl border-2 text-center transition-all ${active ? 'border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900' : 'border-cream-200 dark:border-espresso-700 bg-white dark:bg-espresso-800'}`;
+            });
+        }
+
+        function selectIce(level) {
+            customState.ice = level;
+            document.querySelectorAll('.ice-btn').forEach(btn => {
+                const active = btn.dataset.ice === level;
+                btn.className = `ice-btn p-3.5 rounded-2xl border-2 text-center transition-all ${active ? 'border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900' : 'border-cream-200 dark:border-espresso-700 bg-white dark:bg-espresso-800'}`;
+            });
+        }
+
+        function toggleTopping(topKey) {
+            const idx = customState.toppings.indexOf(topKey);
+            if (idx > -1) {
+                customState.toppings.splice(idx, 1);
+            } else {
+                customState.toppings.push(topKey);
+            }
+            const btn = document.getElementById(`top-${topKey}`);
+            const isSelected = customState.toppings.includes(topKey);
+            btn.className = `w-full p-4 rounded-2xl border-2 text-left flex items-center justify-between ${isSelected ? 'border-espresso-800 dark:border-caramel-500 bg-cream-100 dark:bg-espresso-900' : 'border-cream-200 dark:border-espresso-700 bg-white dark:bg-espresso-800'}`;
+        }
+
+        function addCustomDrinkToCart() {
+            const baseObj = baseConfig[customState.base];
+            let price = baseObj.price;
+            const toppingNames = customState.toppings.map(t => {
+                price += toppingConfig[t].price;
+                return toppingConfig[t].name;
+            });
+            const details = `${customState.sweetness}, ${customState.ice}${toppingNames.length ? ', ' + toppingNames.join(', ') : ''}`;
+            
+            addItemToCart({ id: 'custom-' + Date.now(), name: baseObj.name, details: details, price: price });
+        }
+
+        function addItemToCart(newItem) {
+            const existing = cart.find(i => i.name === newItem.name && i.details === newItem.details);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...newItem, qty: 1 });
+            }
+            renderCart();
+            showToast(`${newItem.name} masuk ke keranjang!`);
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        function applyPromoCode() {
+            const codeInput = document.getElementById('promo-code-input').value.trim().toUpperCase();
+            const feedback = document.getElementById('promo-feedback');
+            const targetCode = 'MANISNYASELALUDIRINDUKAN';
+
+            if (codeInput === targetCode) {
+                discountAmount = 2000; // Potongan Rp 2.000
+                feedback.textContent = "🎉 Yeay! Diskon Rp 2.000 berhasil diterapkan!";
+                feedback.className = "text-[11px] mt-1 font-semibold text-emerald-600 dark:text-emerald-400";
+                renderCart();
+            } else {
+                discountAmount = 0;
+                feedback.textContent = "❌ Kode promo salah! Cek clue slogan cofce ya.";
+                feedback.className = "text-[11px] mt-1 font-semibold text-rose-600 dark:text-rose-400";
+                renderCart();
+            }
+        }
+
+        function renderCart() {
+            const badge = document.getElementById('cart-badge');
+            const list = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            let rawTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            let finalTotal = Math.max(0, rawTotal - discountAmount);
+
+            badge.textContent = totalItems;
+            totalEl.textContent = formatRupiah(finalTotal);
+
+            if (cart.length === 0) {
+                list.innerHTML = `<div class="text-center py-12 space-y-3"><div class="w-14 h-14 rounded-full bg-cream-200 dark:bg-espresso-800 text-espresso-700 dark:text-cream-50 mx-auto flex items-center justify-center"><i class="ph-fill ph-coffee text-2xl"></i></div><p class="font-serif font-bold text-base">Keranjangmu Masih Kosong</p></div>`;
+                return;
+            }
+
+            list.innerHTML = cart.map((item, idx) => `
+                <div class="p-4 rounded-2xl bg-white dark:bg-espresso-800 border border-cream-200 dark:border-espresso-700 flex items-center justify-between gap-3">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">${item.name}</h4>
+                        <p class="text-xs opacity-70 mt-0.5">${item.details}</p>
+                        <p class="font-serif font-bold text-sm text-caramel-600 dark:text-caramel-400 mt-1">${formatRupiah(item.price * item.qty)}</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-cream-100 dark:bg-espresso-900 px-2.5 py-1.5 rounded-xl border border-cream-200 dark:border-espresso-700">
+                        <button onclick="changeQty(${idx}, -1)" class="w-6 h-6 rounded-lg bg-white dark:bg-espresso-800 font-bold text-xs flex items-center justify-center">-</button>
+                        <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                        <button onclick="changeQty(${idx}, 1)" class="w-6 h-6 rounded-lg bg-white dark:bg-espresso-800 font-bold text-xs flex items-center justify-center">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            isCartOpen = !isCartOpen;
+            const modal = document.getElementById('cart-modal');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+
+            if (isCartOpen) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    panel.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                backdrop.classList.add('opacity-0');
+                panel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function setPaymentMethod(method) {
+            selectedPayment = method;
+            document.getElementById('pay-cod-btn').className = method === 'cod' ? 'py-2.5 px-3 rounded-xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-200 dark:bg-espresso-700 text-xs font-bold' : 'py-2.5 px-3 rounded-xl border-2 border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-xs font-bold';
+            document.getElementById('pay-qris-btn').className = method === 'qris' ? 'py-2.5 px-3 rounded-xl border-2 border-espresso-800 dark:border-caramel-500 bg-cream-200 dark:bg-espresso-700 text-xs font-bold' : 'py-2.5 px-3 rounded-xl border-2 border-cream-300 dark:border-espresso-700 bg-white dark:bg-espresso-900 text-xs font-bold';
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) { showToast('Pilih kopi dulu sebelum checkout!'); return; }
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+
+            if (!name || !phone || !address) { showToast('Mohon isi nama, no. telepon, dan alamat dengan lengkap!'); return; }
+
+            toggleCart();
+
+            if (selectedPayment === 'qris') {
+                const rawTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+                const finalTotal = Math.max(0, rawTotal - discountAmount);
+                document.getElementById('qris-amount').textContent = formatRupiah(finalTotal);
+                document.getElementById('qris-modal').classList.remove('hidden');
+            } else {
+                finalizeOrder('COD (Bayar di Tempat)');
+            }
+        }
+
+        function confirmQrisPayment() {
+            document.getElementById('qris-modal').classList.add('hidden');
+            finalizeOrder('QRIS (Sudah Dibayar)');
+        }
+
+        function formatRupiah(num) {
+            return 'Rp ' + num.toLocaleString('id-ID');
+        }
+
+        function simulateCourierMovement() {
+            const pin = document.getElementById('courier-pin');
+            const label = document.getElementById('courier-label');
+            const statusText = document.getElementById('map-status-text');
+            
+            pin.style.top = '410px'; 
+            pin.style.left = '270px';
+            label.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Kurir di Resto';
+            statusText.textContent = "Kurir sedang mengambil pesanan di Resto Cofce...";
+            
+            setTimeout(() => {
+                pin.style.top = '350px'; 
+                pin.style.left = '420px';
+                label.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Dalam Perjalanan';
+                statusText.textContent = "Kurir dalam perjalanan mengantar kopimu ke lokasi! 🛵💨";
+            }, 8000);
+
+            setTimeout(() => {
+                pin.style.top = '300px'; 
+                pin.style.left = '600px';
+                label.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Hampir Sampai';
+                statusText.textContent = "Kurir sudah dekat dengan titik rumahmu!";
+            }, 18000);
+
+            setTimeout(() => {
+                pin.style.top = '280px'; 
+                pin.style.left = '720px';
+                label.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-400 animate-ping"></span> Tiba di Tujuan';
+                statusText.textContent = "Kurir telah tiba di titik rumahmu! ✨";
+            }, 30000);
+        }
+
+        function finalizeOrder(methodName) {
+            const name = document.getElementById('customer-name').value.trim();
+            const phone = document.getElementById('customer-phone').value.trim();
+            const address = document.getElementById('customer-address').value.trim();
+            const now = new Date();
+            const timeStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + ' • ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+            const rawTotal = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const finalTotal = Math.max(0, rawTotal - discountAmount);
+
+            const orderDetails = {
+                id: 'COF-' + Date.now().toString().slice(-6),
+                time: timeStr,
+                name: name,
+                phone: phone,
+                address: address,
+                method: methodName,
+                items: [...cart],
+                total: finalTotal
+            };
+
+            orderHistory.unshift(orderDetails);
+            localStorage.setItem('cofce_history', JSON.stringify(orderHistory));
+
+            cart = [];
+            discountAmount = 0;
+            document.getElementById('customer-name').value = '';
+            document.getElementById('customer-phone').value = '';
+            document.getElementById('customer-address').value = '';
+            document.getElementById('promo-code-input').value = '';
+            document.getElementById('promo-feedback').textContent = '';
+            renderCart();
+            renderHistory();
+
+            // Clear chat box before active order messages
+            document.getElementById('chat-messages').innerHTML = '';
+
+            showReceipt(orderDetails);
+            simulateCourierMovement();
+            triggerCourierAutomatedChat(orderDetails);
+            showToast("✨ Pesanan berhasil dibuat! Kurir sedang menyiapkan pesanan.");
+        }
+
+        // Header Chat Button Click Handler
+        function openHeaderChat() {
+            if (orderHistory.length === 0) {
+                showToast("⚠️ Kamu harus memesan terlebih dahulu agar bisa hubungi kurir!");
+                return;
+            }
+            toggleChatModal();
+        }
+
+        function toggleChatModal() {
+            const modal = document.getElementById('chat-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Automated Courier Chat upon Checkout
+        function triggerCourierAutomatedChat(order) {
+            const chatBox = document.getElementById('chat-messages');
+            
+            setTimeout(() => {
+                chatBox.innerHTML += `
+                    <div class="flex justify-start animate-fade-in">
+                        <div class="bg-white dark:bg-espresso-800 text-espresso-900 dark:text-cream-50 p-3 rounded-2xl rounded-tl-sm shadow-xs max-w-[80%] space-y-1">
+                            <p><strong>Kurir Budi:</strong> Pesanan sedang di buat dan di hantarkan mohon tunggu!</p>
+                            <span class="text-[9px] opacity-50 block text-right">Baru saja</span>
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+
+            setTimeout(() => {
+                const priceText = formatRupiah(order.total);
+                let paymentInfo = order.method.includes('COD') ? `Siapkan dana sebesar ${priceText} ya kak!` : `Pembayaran ${priceText} via QRIS sudah kami terima ya kak!`;
+                chatBox.innerHTML += `
+                    <div class="flex justify-start animate-fade-in">
+                        <div class="bg-white dark:bg-espresso-800 text-espresso-900 dark:text-cream-50 p-3 rounded-2xl rounded-tl-sm shadow-xs max-w-[80%] space-y-1">
+                            <p><strong>Kurir Budi:</strong> ${paymentInfo}</p>
+                            <span class="text-[9px] opacity-50 block text-right">Baru saja</span>
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 3000);
+        }
+
+        function sendUserMessage() {
+            if (orderHistory.length === 0) {
+                showToast("⚠️ Kamu harus memesan terlebih dahulu agar bisa hubungi kurir!");
+                return;
+            }
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatBox = document.getElementById('chat-messages');
+            chatBox.innerHTML += `
+                <div class="flex justify-end animate-fade-in">
+                    <div class="bg-emerald-600 text-white p-3 rounded-2xl rounded-tr-sm shadow-xs max-w-[80%] space-y-1">
+                        <p>${text}</p>
+                        <span class="text-[9px] opacity-75 block text-right">Baru saja</span>
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                chatBox.innerHTML += `
+                    <div class="flex justify-start animate-fade-in">
+                        <div class="bg-white dark:bg-espresso-800 text-espresso-900 dark:text-cream-50 p-3 rounded-2xl rounded-tl-sm shadow-xs max-w-[80%] space-y-1">
+                            <p><strong>Kurir Budi:</strong> Baik Kak, pesanannya segera saya antarkan sampai depan rumah dengan selamat! 🛵</p>
+                            <span class="text-[9px] opacity-50 block text-right">Baru saja</span>
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1500);
+        }
+
+        function showReceipt(order) {
+            document.getElementById('receipt-time').textContent = 'Waktu: ' + order.time + ' (' + order.id + ')';
+            document.getElementById('receipt-details').innerHTML = `
+                <p><strong>Nama:</strong> ${order.name}</p>
+                <p><strong>No. Telp / WA:</strong> ${order.phone}</p>
+                <p><strong>Alamat:</strong> ${order.address}</p>
+                <p><strong>Metode:</strong> ${order.method}</p>
+                <div class="border-t border-cream-200 dark:border-espresso-700 pt-2 mt-2 space-y-1">
+                    ${order.items.map(i => `<div class="flex justify-between"><span>${i.qty}x ${i.name} (${i.details})</span><span>${formatRupiah(i.price * i.qty)}</span></div>`).join('')}
+                </div>
+                <div class="border-t border-cream-200 dark:border-espresso-700 pt-2 mt-2 flex justify-between font-bold text-sm">
+                    <span>Total:</span><span class="text-caramel-600 dark:text-caramel-400">${formatRupiah(order.total)}</span>
+                </div>
+            `;
+            document.getElementById('receipt-modal').classList.remove('hidden');
+            startReceiptCountdown(10 * 60);
+        }
+
+        function startReceiptCountdown(durationSeconds) {
+            orderCountdownSeconds = durationSeconds;
+            let timeLeft = durationSeconds;
+            const timerEl = document.getElementById('receipt-countdown');
+            const cancelBtn = document.getElementById('cancel-order-btn');
+            
+            if (activeCountdownInterval) clearInterval(activeCountdownInterval);
+
+            // Tombol cancel langsung aktif dari awal pesanan dibuat
+            cancelBtn.disabled = false;
+            cancelBtn.className = "w-full py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer";
+
+            activeCountdownInterval = setInterval(() => {
+                timeLeft--;
+                orderCountdownSeconds = timeLeft;
+                const mins = Math.floor(timeLeft / 60);
+                const secs = timeLeft % 60;
+                timerEl.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(activeCountdownInterval);
+                    timerEl.textContent = "Kurir Telah Tiba!";
+                    cancelBtn.disabled = true;
+                    cancelBtn.className = "w-full py-2.5 rounded-2xl bg-gray-300 text-gray-500 font-bold text-xs shadow-xs cursor-not-allowed transition-all";
+                }
+            }, 1000);
+        }
+
+        function cancelCurrentOrder() {
+            if (activeCountdownInterval) clearInterval(activeCountdownInterval);
+            document.getElementById('receipt-modal').classList.add('hidden');
+
+            // Hapus pesanan terbaru dari riwayat
+            if (orderHistory.length > 0) {
+                orderHistory.shift();
+                localStorage.setItem('cofce_history', JSON.stringify(orderHistory));
+                renderHistory();
+            }
+
+            showToast("❌ Pesanan berhasil dibatalkan.");
+        }
+
+        function closeReceiptAndFinish() {
+            if (activeCountdownInterval) clearInterval(activeCountdownInterval);
+            document.getElementById('receipt-modal').classList.add('hidden');
+            window.location.hash = '#riwayat-section';
+        }
+
+        function renderHistory() {
+            const listEl = document.getElementById('main-history-list');
+            if (orderHistory.length === 0) {
+                listEl.innerHTML = `<div class="bg-white dark:bg-espresso-800 p-6 rounded-3xl border border-cream-200 dark:border-espresso-700 text-center text-xs opacity-70">Belum ada riwayat struk pembelian.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = orderHistory.map((ord, idx) => `
+                <div class="bg-white dark:bg-espresso-800 p-5 rounded-3xl border border-cream-200 dark:border-espresso-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-0.5 rounded-full bg-cream-100 dark:bg-espresso-900 text-[11px] font-bold text-caramel-600 dark:text-caramel-400">${ord.id}</span>
+                            <span class="text-xs opacity-70">${ord.time}</span>
+                        </div>
+                        <p class="font-bold text-sm">${ord.name} — <span class="text-caramel-600 dark:text-caramel-400">${formatRupiah(ord.total)}</span></p>
+                        <p class="text-xs opacity-70 line-clamp-1">Kirim ke: ${ord.address} (${ord.method})</p>
+                    </div>
+                    <button onclick="viewHistoryItem(${idx})" class="px-4 py-2.5 rounded-xl bg-espresso-800 dark:bg-caramel-500 hover:bg-caramel-600 text-cream-50 text-xs font-bold transition-all shadow-xs">
+                        Lihat Struk
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function viewHistoryItem(index) {
+            showReceipt(orderHistory[index]);
+        }
+
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = msg;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => { toast.classList.add('translate-y-24', 'opacity-0'); }, 3500);
+        }
+
+        window.onload = function() {
+            renderCart();
+            renderHistory();
+        };
+    </script>
+</body>
+</html>
